@@ -3,4 +3,5 @@ dist/aws-cognito-sdk.min.js
 dist/jsbn.js
 dist/jsbn2.js
 dist/sjcl.js
-.DS_Store
+config.js
+
