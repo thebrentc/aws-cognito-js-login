@@ -164,6 +164,40 @@ var Login = function(opt){
                 alert(err);
             },
 
+            newPasswordRequired: function(userAttributes, requiredAttributes) {
+	    	// User was signed up by an admin and must provide new 
+            	// password and required attributes, if any, to complete 
+            	// authentication.
+
+            	// userAttributes: object, which is the user's current profile. It will list all attributes that are associated with the user. 
+            	// requiredAttributes: list of attributes that must be set by the user along with new password to complete the sign-in.
+
+    	        WindowHelper.show('password');
+            	$('#password #user_name').val(authenticationData["Username"]);
+
+                // Get these details and call 
+                // newPassword: password that user has given
+                // attributesData: object with key as attribute name and value that the user has given.
+                // e.g. cognitoUser.completeNewPasswordChallenge(newPassword, attributesData, this)
+                $('#changePassword').click(function(){
+                    if ($('#password #password_input').val() != $('#password #password_input_2').val()) {
+                        alert("Passwords do not match");
+                        return;
+                    }
+
+                    // the api doesn't accept this field back
+                    delete userAttributes.email_verified;
+
+                    var userPassword = $('#password #password_input').val();
+                    cognitoUser.completeNewPasswordChallenge(userPassword, userAttributes, this,
+                        {
+                            onSuccess: function() { console.log('success'); },
+                            onFailure: function() { console.log(error); }
+                        }
+                    );
+                }.bind(this));
+        }
+
         });
     };
 
